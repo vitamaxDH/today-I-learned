@@ -1,0 +1,151 @@
+## 반복문 - for ~ in 문 (1)
+### 형식
+```bash
+for 변수 in 값1 값2 값3 ...
+do
+    반복할 문장
+done
+```
+
+> forin1.sh
+
+```bash
+#!/bin/sh
+hap=0
+for i in 1 2 3 4 5 6 7 8 9 10
+do
+  hap=`expr $hap + $i`
+done
+echo "1부터 10까지의 합: "$hap
+exit 0
+```
+```
+root@server:~# ./forin1.sh 
+1부터 10까지의 합: 55
+```
+
+반복문 - for ~ in 문 (2)
+- 현재 디렉터리에 있는 셸 스크립트 파일(*.sh)의 파일명과 앞 3줄을 출력하는 프로그램
+
+
+>forin2.sh
+```bash
+#!/bin/sh
+for fname in $(ls *.sh)
+do
+  echo "------$fname0------"
+  head -3 $fname
+ done
+ exit 0
+```
+```
+root@server:~# ./forin2.sh 
+------------
+#!/bin/sh
+echo "보고 싶은 파일명을 입력하세요."
+read fname
+------------
+#!/bin/sh
+case "$1" in
+  start)
+```
+
+## 반복문
+- 조건식이 참인 동안에 계속 반복
+
+> while1.sh
+```bash
+#!/bin/sh
+while [ 1 ]
+do
+  echo "우분투 16.04 LTS"
+  sleep 1
+done
+exit 0
+```
+```
+root@server:~# ./while1.sh 
+우분투 16.04 LTS
+우분투 16.04 LTS
+우분투 16.04 LTS
+우분투 16.04 LTS
+```
+
+> while2.sh
+```bash
+#!/bin/sh
+hap=0
+i=1
+while [ $i -le 10 ]
+do
+  hap=`expr $hap + $i`
+  i=`expr $i + 1`
+done
+echo "1 to 10 hap : "$hap
+exit 0
+```
+```
+root@server:~# ./while2.sh 
+1 to 10 hap : 55
+```
+
+> while3.sh
+
+```bash
+#!/bin/sh
+echo "input password"
+read mypass
+while [ $mypass != "1234" ]
+do
+  echo "wrong. again"
+  read mypass
+done
+echo "passed"
+exit 0
+```
+```
+root@server:~# ./while3.sh 
+input password
+123
+wrong. again
+1234
+passed
+```
+
+## until 문
+- while문과 용도가 거의 같지만, until문은 조건식이 참일때까지 (거짓인 동안) 계속 반복한다
+
+- while2.sh 를 동일한 용도로 until문으로 바꾸려면 4행을 다음과 같이 바꾸면 된다.
+  - until [ $i -gt 10 ]
+
+## break, continue, exit, return 문
+- break 는 주로 반복문을 종료할 때 사용되며, continue 는 반복문의 조건식으로 돌아가게 함. exit 은 해당 프로그램을 완전히 종료함. Return 은 함수 안에서 사용될 수 있으며 함수를 호출한 곳으로 돌아가게 함.
+
+> bce.sh
+```bash
+#!/bin/sh
+echo "무한 반복 입력을 시작합니다(b: break, c: continue, e: exit)"
+while [ 1 ] ; do
+read input
+case $input in
+  b|B)
+    break;;
+  c|C)
+    echo "continue를 누르면 while의 조건으로 돌아감"
+    continue;;
+  e|E)
+    echo "exit를 누르면 프로그램(함수)를 완전히 종료함"
+    exit 1;;
+esac;
+done
+echo "break를 누르면 while 을 빠져나와 현재 이 문장이 출력됨."
+exit 0
+```
+```
+root@server:~# ./bce.sh 
+무한 반복 입력을 시작합니다(b: break, c: continue, e: exit)
+c
+continue를 누르면 while의 조건으로 돌아감
+e
+exit를 누르면 프로그램(함수)를 완전히 종료함
+```
